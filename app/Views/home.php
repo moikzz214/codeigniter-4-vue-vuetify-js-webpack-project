@@ -1,0 +1,1 @@
+<registration-form post-title="<?=$title?>"></registration-form>

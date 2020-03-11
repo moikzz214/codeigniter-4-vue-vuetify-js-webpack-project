@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 // Webpack uses this to work with directories
 const path = require('path');
 
@@ -65,7 +66,8 @@ module.exports = {
         plugins: [
             new MiniCssExtractPlugin({
             filename: "bundle.css"
-            })
+            }),
+            new VueLoaderPlugin()
         ],
         // Default mode for Webpack is production.
         // Depending on mode Webpack will apply different things
