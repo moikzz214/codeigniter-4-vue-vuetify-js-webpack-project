@@ -102,7 +102,7 @@
                         label="Mobile Number"
                         name="mobile"
                         prepend-icon="mdi-phone"
-                        type="text"
+                        type="number"
                         required
                         clearable
                     ></v-text-field>
@@ -112,9 +112,10 @@
                      <v-text-field
                       ref="email"
                       v-model="form.email"
-                      :rules="rules.name"
+                      :rules="rules.email"
                       :error-messages="errorMessages"
                       label="E-mail"
+                      type="text"
                       name="email"
                        prepend-icon="mdi-email"
                     ></v-text-field>
@@ -200,16 +201,14 @@
               rules: { 
                   name: [val => (val || '').length > 0 || 'This field is required'],
                   email: [value => {
-                    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-                    return pattern.test(value) || 'Invalid e-mail.'
+                      const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                      return pattern.test(value) || 'Invalid e-mail.'
                   }],
-              },
-              
+              }, 
               menu1: false,
               conditions: false, 
               snackbar: false,
               terms: false,
-             
               formHasErrors: false,
               errorMessages: '',
               defaultForm,
