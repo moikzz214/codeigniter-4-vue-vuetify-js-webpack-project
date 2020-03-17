@@ -1,5 +1,5 @@
-<v-footer color="indigo" app >
-    <span class="white--text">Grandiose &copy; <?=date('Y')?></span>
+<v-footer color="black" app >
+    <span class="white--text"> &copy; <?=date('Y')?></span>
 </v-footer>
  
 </v-app>

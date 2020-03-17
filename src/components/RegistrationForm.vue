@@ -65,6 +65,7 @@
                                 ref="dob"
                                 v-model="dobFormatted"
                                 :rules="rules.name"
+                                name="dob"
                                 label="Date of Birth"
                                 hint="MM/DD/YYYY format"
                                 persistent-hint
@@ -86,6 +87,7 @@
                       :rules="rules.name"
                       :items="gender"
                       label="Gender" 
+                      name="gender"
                       :error-messages="errorMessages"
                       prepend-icon="mdi-human-male-female"
                       required
@@ -113,6 +115,7 @@
                       :rules="rules.name"
                       :error-messages="errorMessages"
                       label="E-mail"
+                      name="email"
                        prepend-icon="mdi-email"
                     ></v-text-field>
                 </v-col>
@@ -121,8 +124,9 @@
                     <v-autocomplete
                     ref="country"
                     v-model="form.country"
-                    :rules="[() => !!country || 'This field is required']"
-                    :items="countries"
+                    :rules="rules.name"
+                    :items="country"
+                    name="country"
                     label="Nationality" 
                     prepend-icon="mdi-flag"
                     :error-messages="errorMessages"
@@ -131,17 +135,27 @@
                 </v-col>
 
                   <v-col cols="12" md="6" xs="12"  sm="12" >
-                     <v-select
+                     <v-autocomplete
                       ref="states"
                       v-model="form.states"
                       :rules="rules.name"
                       :error-messages="errorMessages"
                       :items="states"
+                      name="states"
                       label="States" 
                       prepend-icon="mdi-map-marker-path"
                       required
-                    ></v-select>
+                    ></v-autocomplete>
                 </v-col>
+
+                 <v-col cols="12" md="12" xs="12"  sm="12" >
+                    <v-text-field
+                      ref="address"
+                      v-model="form.address"  
+                      label="Current Home Address"
+                       prepend-icon="mdi-home"
+                    ></v-text-field>
+                  </v-col>
             </v-row> 
  
                 </v-form>
@@ -161,28 +175,28 @@
 
 <script>
   export default {
-    props: ['postTitle'],
+    props: ['postTitle', 'requiredFields'],
     data(vm){
           const defaultForm = Object.freeze({
             first: '',
             last: '',  
+            dob: '',
             gender: '',
             mobile: '',
             email: '', 
-            states: '',
-            dob: '',
             country: '',
+            states: '',
           })
 
           return{
               title: this.postTitle,
+              // fldsreq: JSON.parse(this.requiredFields),
               form: Object.assign({}, defaultForm),
               date: new Date().toISOString().substr(0, 10), 
               states: ['Abu Dhabi', 'Ajman', 'Dubai', 'Fujairah', 'Ras Al Khaimah', 'Sharjah', 'Umm Al Quwain'],
               gender: ['Male', 'Female'],
-              countries: ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla', 'Antigua &amp; Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia &amp; Herzegovina', 'Botswana', 'Brazil', 'British Virgin Islands', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Cape Verde', 'Cayman Islands', 'Chad', 'Chile', 'China', 'Colombia', 'Congo', 'Cook Islands', 'Costa Rica', 'Cote D Ivoire', 'Croatia', 'Cruise Ship', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Estonia', 'Ethiopia', 'Falkland Islands', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Polynesia', 'French West Indies', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Isle of Man', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jersey', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Kyrgyz Republic', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macau', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Namibia', 'Nepal', 'Netherlands', 'Netherlands Antilles', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Reunion', 'Romania', 'Russia', 'Rwanda', 'Saint Pierre &amp; Miquelon', 'Samoa', 'San Marino', 'Satellite', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'St Kitts &amp; Nevis', 'St Lucia', 'St Vincent', 'St. Lucia', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', "Timor L'Este", 'Togo', 'Tonga', 'Trinidad &amp; Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks &amp; Caicos', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'],
-              dobFormatted: '',
-              country: '',
+              country: ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Anguilla', 'Antigua &amp; Barbuda', 'Argentina', 'Armenia', 'Aruba', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia &amp; Herzegovina', 'Botswana', 'Brazil', 'British Virgin Islands', 'Brunei', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Cape Verde', 'Cayman Islands', 'Chad', 'Chile', 'China', 'Colombia', 'Congo', 'Cook Islands', 'Costa Rica', 'Cote D Ivoire', 'Croatia', 'Cruise Ship', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Estonia', 'Ethiopia', 'Falkland Islands', 'Faroe Islands', 'Fiji', 'Finland', 'France', 'French Polynesia', 'French West Indies', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Gibraltar', 'Greece', 'Greenland', 'Grenada', 'Guam', 'Guatemala', 'Guernsey', 'Guinea', 'Guinea Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hong Kong', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Isle of Man', 'Israel', 'Italy', 'Jamaica', 'Japan', 'Jersey', 'Jordan', 'Kazakhstan', 'Kenya', 'Kuwait', 'Kyrgyz Republic', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macau', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Mauritania', 'Mauritius', 'Mexico', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Montserrat', 'Morocco', 'Mozambique', 'Namibia', 'Nepal', 'Netherlands', 'Netherlands Antilles', 'New Caledonia', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Puerto Rico', 'Qatar', 'Reunion', 'Romania', 'Russia', 'Rwanda', 'Saint Pierre &amp; Miquelon', 'Samoa', 'San Marino', 'Satellite', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'South Africa', 'South Korea', 'Spain', 'Sri Lanka', 'St Kitts &amp; Nevis', 'St Lucia', 'St Vincent', 'St. Lucia', 'Sudan', 'Suriname', 'Swaziland', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', "Timor L'Este", 'Togo', 'Tonga', 'Trinidad &amp; Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Turks &amp; Caicos', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Venezuela', 'Vietnam', 'Virgin Islands (US)', 'Yemen', 'Zambia', 'Zimbabwe'],
+              dobFormatted: '', 
               rules: { 
                   name: [val => (val || '').length > 0 || 'This field is required'],
                   email: [value => {
@@ -212,12 +226,10 @@
       date (val) {
         this.dobFormatted = this.formatDate(this.date)
       },
-       name () {
-        this.errorMessages = ''
-      },
+      
     },
     mounted(){
-      //console.log(this.postTitle);
+     // console.log(this.requiredFields);
     },
     methods: {
       formatDate (date) {
@@ -244,10 +256,28 @@
         this.formHasErrors = false
 
         Object.keys(this.form).forEach(f => {
-          if (!this.form[f]) this.formHasErrors = true
+          if (!this.form[f]){ this.formHasErrors = true; }
+          else{ this.formHasErrors = false; }
 
-          this.$refs[f].validate(true)
+           this.$refs[f].validate(true)
+
         })
+      
+        if( this.formHasErrors === false){
+        
+            let postData = {};
+            postData['contents'] = this.form; 
+           
+            axios.post('/create', postData)  
+            .then(response => { 
+                console.log(response);
+            }).catch(error => { 
+                console.log(error );
+            });
+ 
+
+        }
+          
       },
     },
   }

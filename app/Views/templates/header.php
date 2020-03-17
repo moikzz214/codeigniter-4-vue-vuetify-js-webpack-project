@@ -12,3 +12,8 @@
 <body>  
 <div id="app"> 
   <v-app id="inspire"> 
+  <v-container class="d-flex justify-center">
+	<div id="logo" class="pt-10">
+		<a href="https://grandiose.net/"> <img src="https://grandiose.net/wp-content/uploads/2019/10/grandiose-logo-v3.svg" alt="Grandiose Supermarket L.L.C." id="logo"  width="300" height="84"> </a>
+	</div>
+</v-container>
