@@ -30,9 +30,13 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::homepage');
-$routes->post('/create', 'Home::create');
 
+
+$routes->get('/', 				'Home::views');
+$routes->get('/registration', 	'Home::registration');
+
+$routes->resource('products');
+ 
 /**
  * --------------------------------------------------------------------
  * Additional Routing

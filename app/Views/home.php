@@ -1,1 +1,1 @@
-<registration-form post-title="<?=$title?>" ></registration-form>
+<list-form post-title="<?=$title?>" ></list-form>

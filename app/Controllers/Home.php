@@ -1,17 +1,29 @@
 <?php namespace App\Controllers;
-//use CodeIgniter\RESTful\ResourcePresenter;
+//use CodeIgniter\RESTful\ResourceController;
 
 class Home extends BaseController
 {
-	protected $version = '1.0.0'; 
+	protected $version = '1.0.1'; 
+	protected $page;
+	protected $title;
+ 
 
 	public function index(){ 
 		
 	}
 
-	public function homepage(){
+	public function views(){
+		$this->page = 'home';
+		$this->title = 'Home';
 		$this->template();
 	} 
+
+	public function registration(){
+		$this->page = 'register';
+		$this->title = 'Registration';
+
+		$this->template();
+	}
 
 	private function template(){
 		
@@ -21,40 +33,40 @@ class Home extends BaseController
 		// Update Version of custom CSS/JS files : bundle.css?v=1.0.0
 		$data['version'] = $this->version;
 
-		$data['title'] = 'Registration';
+		$data['title'] = $this->title;
   
 		echo view( 'templates/header', $data); 
-		echo view( 'home');
+		echo view( $this->page);
 		echo view( 'templates/footer'); 
-	}
+	} 
 
-	public function create() {
+	// public function create() {
 			 
-		$this->isValidate();
+	// 	$this->isValidate();
 
-			helper('form','url'); 
+	// 		helper('form','url'); 
 			
-			$data = $this->request->getJSON();	 
+	// 		$data = $this->request->getJSON();	 
 		 
-			$userModel  = model('App\Models\UserModel', false); 
+	// 		$userModel  = model('App\Models\UserModel', false); 
 		 
-			$items = [
-					'cv'    			=> $data->contents->email,
-					'parent_id' 		=> 0,
-					'contents' 			=> json_encode(serialize($data)),
-					'expiry_date' 		=> '0000-00-00 00:00:00'
-			];
+	// 		$items = [
+	// 				'cv'    			=> $data->contents->email,
+	// 				'parent_id' 		=> 0,
+	// 				'contents' 			=> json_encode(serialize($data)),
+	// 				'expiry_date' 		=> '0000-00-00 00:00:00'
+	// 		];
 
-			$result = $userModel->save($items); 
+	// 		$result = $userModel->save($items); 
 			
-			if($result){
-				$response = 'Success';
-			}else{
-				$response = json_encode($userModel->errors());
-			}
+	// 		if($result){
+	// 			$response = 'Success';
+	// 		}else{
+	// 			$response = json_encode($userModel->errors());
+	// 		}
 
-			return  $response; 
-	}
+	// 		return  $response; 
+	// }
 
 	private function isValidate(){
 		if (!$this->request->isAJAX()){

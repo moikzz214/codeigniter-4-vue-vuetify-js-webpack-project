@@ -12,8 +12,43 @@
 <body>  
 <div id="app"> 
   <v-app id="inspire"> 
-  <v-container class="d-flex justify-center">
-	<div id="logo" class="pt-10">
-		<a href="https://grandiose.net/"> <img src="https://grandiose.net/wp-content/uploads/2019/10/grandiose-logo-v3.svg" alt="Grandiose Supermarket L.L.C." id="logo"  width="300" height="84"> </a>
-	</div>
-</v-container>
+  
+    <v-navigation-drawer
+      v-model="drawer"
+      app
+    >
+      <v-list dense>
+        <v-list-item href="/">
+          <v-list-item-action>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Home</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <!-- <v-list-item href="registration">
+          <v-list-item-action>
+            <v-icon>mdi-email</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <v-list-item-title>Register</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item> -->
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-app-bar
+      app
+      color="indigo"
+      dark
+    >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title><?=$title?></v-toolbar-title>
+    </v-app-bar>
+
+	<!-- <v-container class="d-flex justify-center logo-container">
+		<div id="logo">
+			<a href="https://grandiose.net/"> <img src="https://grandiose.net/wp-content/uploads/2019/10/grandiose-logo-v3.svg" alt="Grandiose Supermarket L.L.C." id="logo"  width="300" height="84"> </a>
+		</div>
+	</v-container>  -->
+   
